@@ -1,0 +1,9 @@
+output
+tmp
+*.swp
+.idea
+/vendor
+.DS_Store
+config/
+log
+package.test
