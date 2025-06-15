@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type People struct {
 	ChineseName string
 	EnglishName string
@@ -16,9 +18,12 @@ var (
 )
 
 type Question struct {
-	Question string
-	Answers  string
-	Category QuestionCategory
+	QuestionID string           `json:"question_id" bson:"question_id"`
+	Question   string           `json:"question" bson:"question"`
+	Answer     string           `json:"answer" bson:"answer"`
+	Category   QuestionCategory `json:"category" bson:"category"`
+	CreatedAt  time.Time        `json:"created_at" bson:"created_at"`
+	UpdatedAt  time.Time        `json:"updated_at" bson:"updated_at"`
 }
 
 type ProductType string
@@ -29,10 +34,11 @@ var (
 	Healthcare      ProductType = "医疗"
 )
 
-type Products struct {
-	Type  ProductType
-	Name  string
-	files []string
+type ProductFile struct {
+	FIleID     string      `json:"file_id" bson:"file_id"`
+	Category   ProductType `json:"category" bson:"category"`
+	Name       string      `json:"name" bson:"name"`
+	ObjectKeys string      `json:"object_keys" bson:"object_keys"`
 }
 
 type Courses struct {

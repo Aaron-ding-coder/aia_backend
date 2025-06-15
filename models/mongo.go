@@ -11,9 +11,8 @@ var (
 )
 
 const (
-	mongoName      = "aia"
-	mongoUrl       = "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.2"
-	UserCollection = "users"
+	mongoName = "aia"
+	mongoUrl  = "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.2"
 )
 
 func Init(ctx context.Context) *mongo.Database {
@@ -28,4 +27,8 @@ func Init(ctx context.Context) *mongo.Database {
 
 	Database = client.Database(mongoName)
 	return Database
+}
+
+func GetCollection(colName string) *mongo.Collection {
+	return Database.Collection(colName)
 }

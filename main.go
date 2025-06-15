@@ -1,6 +1,7 @@
 package main
 
 import (
+	"aia_backend/global"
 	"aia_backend/handler"
 	"context"
 	"fmt"
@@ -14,22 +15,23 @@ import (
 
 func main() {
 	ctx := context.Background()
+	global.MustSetup(ctx)
 	addr := ":9096"
 	baseRoute := mux.NewRouter()
 	router := baseRoute.PathPrefix("/v1").Subrouter()
 	router.HandleFunc("/hello", handler.PingHandler)
 	// 常见问题 crud
-	router.Path("/frequent_questions").Methods(http.MethodPost).HandlerFunc(handler.PingHandler)
-	router.Path("/frequent_questions").Methods(http.MethodGet).HandlerFunc(handler.PingHandler)
-	router.Path("/frequent_questions").Methods(http.MethodDelete).HandlerFunc(handler.PingHandler)
-	router.Path("/frequent_questions").Methods(http.MethodPut).HandlerFunc(handler.PingHandler)
+	router.Path("/frequent_questions").Methods(http.MethodPost).HandlerFunc(handler.UploadFrequentQuestionHandler)
+	router.Path("/frequent_questions").Methods(http.MethodGet).HandlerFunc(handler.ListFrequentQuestionsHandler)
+	//router.Path("/frequent_questions").Methods(http.MethodDelete).HandlerFunc(handler.PingHandler)
+	//router.Path("/frequent_questions").Methods(http.MethodPut).HandlerFunc(handler.PingHandler)
 
-	router.Path("/product_poster").Methods(http.MethodPost).HandlerFunc(handler.PingHandler)
-	router.Path("/product_poster").Methods(http.MethodGet).HandlerFunc(handler.PingHandler)
-	router.Path("/products").Methods(http.MethodGet).HandlerFunc(handler.PingHandler)
-	router.Path("/products/{category}").Methods(http.MethodGet).HandlerFunc(handler.PingHandler)
-	router.Path("/products").Methods(http.MethodPost).HandlerFunc(handler.PingHandler)
-	router.Path("/products/{product_id}").Methods(http.MethodDelete).HandlerFunc(handler.PingHandler)
+	//router.Path("/product_poster").Methods(http.MethodPost).HandlerFunc(handler.PingHandler)
+	//router.Path("/product_poster").Methods(http.MethodGet).HandlerFunc(handler.PingHandler)
+	//router.Path("/products/{category}").Methods(http.MethodGet).HandlerFunc(handler.PingHandler)
+	router.Path("/products").Methods(http.MethodPost).HandlerFunc(handler.UploadProductFileHandler)
+	router.Path("/products").Methods(http.MethodGet).HandlerFunc(handler.ListProductsHandler)
+	router.Path("/products/{product_id}").Methods(http.MethodGet).HandlerFunc(handler.DownloadProductFileHandler)
 
 	// 核保和理赔应该怎么弄 也放进 products 里面？
 	router.Path("/videos").Methods(http.MethodGet).HandlerFunc(handler.PingHandler)
